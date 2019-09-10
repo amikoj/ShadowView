@@ -8,7 +8,7 @@ android {
     compileSdkVersion sdkVersion
     defaultConfig {
         applicationId "cn.enjoytoday.shadowview"
-        minSdkVersion minSdkVersion
+        minSdkVersion minSdk
         targetSdkVersion sdkVersion
         versionCode 1
         versionName "1.0"

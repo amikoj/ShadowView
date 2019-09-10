@@ -19,7 +19,7 @@ buildscript {
 
 ext{
     sdkVersion = 28
-    minSdkVersion = 19
+    minSdk= 19
     libVersionName = "1.0.0"
     libVersionCode = 1
 

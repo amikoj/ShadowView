@@ -2,9 +2,17 @@ package cn.enjoytoday.shadow;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 /**
  * Created by Android Studio.
@@ -16,7 +24,7 @@ import android.view.ViewGroup;
  *  阴影布局，只可放一个子view
  *
  */
-public class ShadowLayout extends ViewGroup{
+public class ShadowLayout extends LinearLayout {
 
     //默认单边
     public static final int SHADOW_NORMAL = 0 ;
@@ -98,6 +106,8 @@ public class ShadowLayout extends ViewGroup{
     private Shadow shadow = new ShadowConfig(this);
 
 
+    private Paint mPaint = new Paint();
+
 
     public ShadowLayout(Context context) {
         super(context,null);
@@ -145,36 +155,52 @@ public class ShadowLayout extends ViewGroup{
         init();
     }
 
-
-
     private void init(){
 
+    }
+
+
+    /**
+     * 获取阴影设置
+     * @return 返回阴影设置配置
+     */
+    public  Shadow getShadowConfig(){
+        return shadow;
     }
 
 
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-
+        super.onLayout(changed,l,t,r,b);
     }
 
 
+    @Override
+    protected void onDraw(Canvas canvas) {
+        mPaint.setShadowLayer(shadowRadius,shadowRadius,shadowRadius,shadowColor);
+        Bitmap bitmap =  drawableToBitmap(getBackground());
+//        Bitmap bitmap =BitmapFactory.decodeResource(getResources(),R.drawable.defaultShadowBg);
 
+        canvas.drawBitmap(bitmap,0f,0f,mPaint);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        // 取 drawable 的长宽
+        int w = (int)DimenUtil.INSTANCE.dp2px(250);
+        int h = (int)DimenUtil.INSTANCE.dp2px(100);
+        // 取 drawable 的颜色格式
+        Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                : Bitmap.Config.RGB_565;
+        // 建立对应 bitmap
+        Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+        // 建立对应 bitmap 的画布
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, w, h);
+        // 把 drawable 内容画到画布中
+        drawable.draw(canvas);
+        return bitmap;
+    }
 
 
     /**
