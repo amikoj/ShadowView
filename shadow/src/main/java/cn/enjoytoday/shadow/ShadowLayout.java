@@ -213,28 +213,28 @@ public class ShadowLayout extends LinearLayout {
         mWidthMode = getMeasuredWidth();
         mHeightMode =  getMeasuredHeight();
         canvas.drawColor(Color.parseColor("#00FFFFFF"));//绘制透明色
-        int size = 26;
+        int size = 0;
         mPaint = new Paint();
         mPaint.setShadowLayer(shadowRadius,shadowRadius,shadowRadius,shadowColor);
         mPath = new Path();
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(Color.WHITE);
         mPaint.setAntiAlias(true);
-        mPath.lineTo(mWidthMode - size, 0);
+        mPath.lineTo(mWidthMode, 0);
 //        RectF rectF1 = new RectF(mWidthMode - size, -size, mWidthMode + size, size);
 //        mPath.arcTo(rectF1, -180, -90);
-        mPath.lineTo(mWidthMode, mHeightMode - size);
+        mPath.lineTo(mWidthMode, mHeightMode);
 //        RectF rectF2 = new RectF(mWidthMode - size, mHeightMode - size, mWidthMode + size, mHeightMode + size);
 //        mPath.arcTo(rectF2, -90, -90);
 
         mPath.lineTo(size, mHeightMode);
-        RectF rectF3 = new RectF(-size, mHeightMode - size, size, mHeightMode + size);
-        mPath.arcTo(rectF3, 0, -90);
+//        RectF rectF3 = new RectF(-size, mHeightMode - size, size, mHeightMode + size);
+//        mPath.arcTo(rectF3, 0, -90);
         mPath.lineTo(0, size);
 
-        RectF rectF4 = new RectF(-size, -size, size, size);
-        mPath.arcTo(rectF4, -270, -90);
-        mPath.lineTo(size, 0);
+//        RectF rectF4 = new RectF(-size, -size, size, size);
+//        mPath.arcTo(rectF4, -270, -90);
+//        mPath.lineTo(size, 0);
         mPath.close();
         canvas.drawPath(mPath, mPaint);
 
