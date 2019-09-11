@@ -7,10 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PixelFormat;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -49,14 +53,14 @@ public class ShadowLayout extends LinearLayout {
 
 
     //默认阴影半径
-    public static final float SHADOW_DEFAULT_RADIUS =  DimenUtil.INSTANCE.dp2px(5);
+    public static final float SHADOW_DEFAULT_RADIUS =  DimenUtil.INSTANCE.dp2px(15);
 
 
     //默认模糊半径
     public static final float SHADOW_DEFAULT_BLUR_RADIUS = DimenUtil.INSTANCE.dp2px(5);
 
     //阴影颜色
-    private int shadowColor = Color.parseColor("#333333");
+    private int shadowColor = Color.parseColor("#ff0000");
 
     //阴影类型,0:默认为单边 1:单边 2:邻边 3:四边所有
     private int shadowType;
@@ -105,8 +109,11 @@ public class ShadowLayout extends LinearLayout {
     //代理方式
     private Shadow shadow = new ShadowConfig(this);
 
-
+    private int mWidthMode;
+    private int mHeightMode;
     private Paint mPaint = new Paint();
+
+    private Path mPath;
 
 
     public ShadowLayout(Context context) {
@@ -177,13 +184,67 @@ public class ShadowLayout extends LinearLayout {
 
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        mPaint.setShadowLayer(shadowRadius,shadowRadius,shadowRadius,shadowColor);
-        Bitmap bitmap =  drawableToBitmap(getBackground());
-//        Bitmap bitmap =BitmapFactory.decodeResource(getResources(),R.drawable.defaultShadowBg);
-
-        canvas.drawBitmap(bitmap,0f,0f,mPaint);
+    protected void dispatchDraw(Canvas canvas) {
+        drawBackground(canvas);//放在super前是后景，相反是前景，前景会覆盖子布局
+        super.dispatchDraw(canvas);
     }
+
+
+
+
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+
+    //绘制前景色(覆盖在子View上面)
+    private void drawForegroundBg(Canvas canvas){
+
+    }
+
+
+
+    //绘制背景色(在子view底部)
+    private void drawBackground(Canvas canvas){
+        Log.e("ShadowLayout","width:"+getMeasuredWidth()+",height:"+getHeight());
+        this.setLayerType(LAYER_TYPE_SOFTWARE, null);//取消硬件加速
+        mWidthMode = getMeasuredWidth();
+        mHeightMode =  getMeasuredHeight();
+        canvas.drawColor(Color.parseColor("#00FFFFFF"));//绘制透明色
+        int size = 26;
+        mPaint = new Paint();
+        mPaint.setShadowLayer(shadowRadius,shadowRadius,shadowRadius,shadowColor);
+        mPath = new Path();
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(Color.WHITE);
+        mPaint.setAntiAlias(true);
+        mPath.lineTo(mWidthMode - size, 0);
+//        RectF rectF1 = new RectF(mWidthMode - size, -size, mWidthMode + size, size);
+//        mPath.arcTo(rectF1, -180, -90);
+        mPath.lineTo(mWidthMode, mHeightMode - size);
+//        RectF rectF2 = new RectF(mWidthMode - size, mHeightMode - size, mWidthMode + size, mHeightMode + size);
+//        mPath.arcTo(rectF2, -90, -90);
+
+        mPath.lineTo(size, mHeightMode);
+        RectF rectF3 = new RectF(-size, mHeightMode - size, size, mHeightMode + size);
+        mPath.arcTo(rectF3, 0, -90);
+        mPath.lineTo(0, size);
+
+        RectF rectF4 = new RectF(-size, -size, size, size);
+        mPath.arcTo(rectF4, -270, -90);
+        mPath.lineTo(size, 0);
+        mPath.close();
+        canvas.drawPath(mPath, mPaint);
+
+
+    }
+
+
+
+
+
 
     public static Bitmap drawableToBitmap(Drawable drawable) {
         // 取 drawable 的长宽
@@ -211,7 +272,7 @@ public class ShadowLayout extends LinearLayout {
         //代理
         private ShadowLayout shadow;
 
-        public ShadowConfig(ShadowLayout shadow) {
+        private ShadowConfig(ShadowLayout shadow) {
             this.shadow = shadow;
         }
 
