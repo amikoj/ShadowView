@@ -12,10 +12,8 @@
         <!-- 是否有点击效果-->
         <attr name="hasEffect" format="boolean"/>
         <attr name="bgColor" format="color"/>
-
         <!-- 水平位移-->
         <attr name="xOffset" format="dimension"/>
-
         <!--竖直位移 -->
         <attr name="yOffset" format="dimension"/>
         

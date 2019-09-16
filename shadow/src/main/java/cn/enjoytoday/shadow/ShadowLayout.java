@@ -35,28 +35,6 @@ public class ShadowLayout extends LinearLayout {
 
     private static  final  String TAG = "ShadowLayout";
 
-    //默认单边
-    public static final int SHADOW_NORMAL = 0 ;
-    //单边模式
-    public static final int SHADOW_UNILATERAL = 1 ;
-    //邻边
-    public static final int SHADOW_NEIGHBOR = 2;
-    //多边
-    public static final int SHADOW_MORE =  3;
-    //左边的边显示阴影
-    public static final int SHADOW_ON_LEFT = 0;
-
-    //左边的边显示阴影
-    public static final int SHADOW_ON_RIGHT =  1;
-
-    //上面的边显示阴影
-    public static final int SHADOW_ON_TOP =  2;
-
-
-    //下面的边显示阴影
-    public static final int SHADOW_ON_BOTTOM = 3;
-
-
     //默认阴影半径
     public static final float SHADOW_DEFAULT_RADIUS =  DimenUtil.INSTANCE.dp2px(5);
 
@@ -127,6 +105,24 @@ public class ShadowLayout extends LinearLayout {
         yOffset = typedArray.getDimension(R.styleable.ShadowLayout_yOffset,DimenUtil.INSTANCE.dp2px(10));
         bgColor = typedArray.getColor(R.styleable.ShadowLayout_bgColor,Color.WHITE);
         typedArray.recycle();
+
+        if (shadowRadius<0){
+            shadowRadius = -shadowRadius;
+        }
+        if (blurRadius < 0) {
+            blurRadius = -blurRadius;
+        }
+
+        blurRadius = Math.min(SHADOW_MAX_BLUR,blurRadius);
+
+        if (Math.abs(xOffset)> SHADOW_MAX_OFFSET){
+            xOffset = xOffset/Math.abs(xOffset) * SHADOW_MAX_OFFSET;
+        }
+
+        if (Math.abs(yOffset) > SHADOW_MAX_OFFSET){
+            yOffset = yOffset/Math.abs(yOffset) * SHADOW_MAX_OFFSET;
+        }
+
         init();
     }
 
@@ -135,21 +131,17 @@ public class ShadowLayout extends LinearLayout {
         if (xOffset>0){
             //水平偏移量为正数，右侧有阴影，阴影长度为blurRadius+|xOffset|
             right = (int)(blurRadius + Math.abs(xOffset));
-//            right = (int) Math.abs(xOffset);
         }else if (xOffset==0){
             //水平偏移为0,水平间距为blurRadius
             left = (int)blurRadius;
             right = (int)blurRadius;
         }else {
             //水平偏移为负数,左侧有阴影，阴影长度为blurRadius+|xOffset|
-
             left = (int)(blurRadius + Math.abs(xOffset));
-//            left  = (int)Math.abs(xOffset);
         }
         if (yOffset>0){
             //竖直偏移量为正数，底部有阴影，阴影长度为blurRadius+|yOffset|
             bottom = (int)(blurRadius + Math.abs(yOffset));
-//            bottom = (int)Math.abs(yOffset);
         }else if (yOffset==0){
             //竖直偏移量为0，竖直间距为blurRadius
             top = (int)blurRadius;
@@ -157,7 +149,6 @@ public class ShadowLayout extends LinearLayout {
         }else {
             //竖直偏移量为负数，顶部有阴影，阴影长度为blurRadius+|yOffset|
             top = (int)(blurRadius + Math.abs(yOffset));
-//            top = (int)Math.abs(yOffset);
         }
 
         setPadding(left,top,right,bottom);
@@ -201,7 +192,6 @@ public class ShadowLayout extends LinearLayout {
 
     //绘制背景色(在子view底部)
     private void drawBackground(Canvas canvas){
-//        Log.e("ShadowLayout","width:"+getMeasuredWidth()+",height:"+getHeight());
         this.setLayerType(LAYER_TYPE_SOFTWARE, null);//取消硬件加速
         mWidthMode = getMeasuredWidth();
         mHeightMode =  getHeight();
