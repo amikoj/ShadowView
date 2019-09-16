@@ -1,6 +1,6 @@
 # ShadowView 的使用
 
-
+[![](https://jitpack.io/v/amikoj/ShadowView.svg)](https://jitpack.io/#amikoj/ShadowView)
 ### 使用说明
 Android 控件阴影使用，采用类似于css的Box Shadow 效果的阴影效果和设置方式,使用如下:
 
@@ -10,8 +10,14 @@ Android 控件阴影使用，采用类似于css的Box Shadow 效果的阴影效�
 ##### 添加依赖
 
 ```gradle
+repositories {
+			...
+			maven { url 'https://jitpack.io' }
+}
 
-
+dependencies {
+	        implementation 'com.github.amikoj:ShadowView:1.0.0'
+}
 ```
 
 
@@ -56,7 +62,7 @@ Android 控件阴影使用，采用类似于css的Box Shadow 效果的阴影效�
  | blurRadius        | dimension      |   模糊半径    |
  | xOffset        | dimension      |   水平位移  |
  | yOffset        | dimension      |   竖直位移  |
- | bgColor        | color      |       |
+ | bgColor        | color      |     背景色  |
 
 
 
