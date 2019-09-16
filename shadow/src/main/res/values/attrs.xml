@@ -9,57 +9,15 @@
         <attr name="shadowRadius" format="dimension"/>
         <!-- 模糊半径 -->
         <attr name="blurRadius" format="dimension" />
-        <!--优先级高于设置每个边的阴影半径-->
-        <attr name="shadowType" format="integer">
-            <!--默认单边，底部 -->
-            <enum name="normal" value="0" />
-            <!--单边，只设置某个边 -->
-            <enum name="unilateral" value="1" />
-            <!-- 邻边，通过设置x,y的位移实现-->
-            <enum name="neighbor" value="2" />
-            <!--多边-->
-            <enum name="more" value="3" />
-        </attr>
-
         <!-- 是否有点击效果-->
         <attr name="hasEffect" format="boolean"/>
-
         <attr name="bgColor" format="color"/>
-
-        <!--设置单边模糊后设置有效，默认为bottom-->
-        <attr name="side" format="integer">
-            <enum name="left" value="0"/>
-            <enum name="right" value="1"/>
-            <enum name="top" value="2"/>
-            <enum name="bottom" value="3"/>
-        </attr>
-
-
-
 
         <!-- 水平位移-->
         <attr name="xOffset" format="dimension"/>
 
         <!--竖直位移 -->
         <attr name="yOffset" format="dimension"/>
-
-
-
-
-        <!--邻边设置radius-->
-        <!--竖直方向-->
-        <attr name="verticalRadius" format="dimension"/>
-        <!-- 水平方向-->
-        <attr name="horizontalRadius" format="dimension"/>
-        
-
-        <!-- 所有的边设置radius-->
-        <attr name="leftRadius" format="dimension"/>
-        <attr name="rightRadius" format="dimension"/>
-        <attr name="topRadius" format="dimension" />
-        <attr name="bottomRadius" format="dimension"/>
-
-
         
     </declare-styleable>
     

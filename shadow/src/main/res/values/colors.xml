@@ -3,5 +3,4 @@
     <color name="defaultShadowColor">#333333</color>
     <drawable name="defaultShadowBg">#ffffff</drawable>
 
-
 </resources>
