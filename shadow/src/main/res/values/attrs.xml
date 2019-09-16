@@ -7,7 +7,7 @@
         <attr name="shadowColor" format="color"/>
         <!-- 圆角大小，默认无圆角0-->
         <attr name="shadowRadius" format="dimension"/>
-        <!-- 模糊半径-->
+        <!-- 模糊半径 -->
         <attr name="blurRadius" format="dimension" />
         <!--优先级高于设置每个边的阴影半径-->
         <attr name="shadowType" format="integer">
@@ -24,6 +24,8 @@
         <!-- 是否有点击效果-->
         <attr name="hasEffect" format="boolean"/>
 
+        <attr name="bgColor" format="color"/>
+
         <!--设置单边模糊后设置有效，默认为bottom-->
         <attr name="side" format="integer">
             <enum name="left" value="0"/>
@@ -31,6 +33,17 @@
             <enum name="top" value="2"/>
             <enum name="bottom" value="3"/>
         </attr>
+
+
+
+
+        <!-- 水平位移-->
+        <attr name="xOffset" format="dimension"/>
+
+        <!--竖直位移 -->
+        <attr name="yOffset" format="dimension"/>
+
+
 
 
         <!--邻边设置radius-->

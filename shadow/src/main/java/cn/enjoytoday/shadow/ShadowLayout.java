@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,6 +14,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,23 +55,43 @@ public class ShadowLayout extends LinearLayout {
 
 
     //默认阴影半径
-    public static final float SHADOW_DEFAULT_RADIUS =  DimenUtil.INSTANCE.dp2px(15);
+    public static final float SHADOW_DEFAULT_RADIUS =  DimenUtil.INSTANCE.dp2px(5);
+
+    //阴影最大偏移量
+    public static final float SHADOW_MAX_OFFSET = DimenUtil.INSTANCE.dp2px(20);
+
+    //阴影最大模糊半径
+    public static final float SHADOW_MAX_BLUR = DimenUtil.INSTANCE.dp2px(20);
+
 
 
     //默认模糊半径
     public static final float SHADOW_DEFAULT_BLUR_RADIUS = DimenUtil.INSTANCE.dp2px(5);
 
+
+
+
     //阴影颜色
-    private int shadowColor = Color.parseColor("#ff0000");
+    private int shadowColor = Color.parseColor("#333333");
 
     //阴影类型,0:默认为单边 1:单边 2:邻边 3:四边所有
     private int shadowType;
 
     //阴影半径
-    private float shadowRadius = SHADOW_DEFAULT_RADIUS;
+    private float shadowRadius = 0f;
 
     //模糊度半径
     private  float blurRadius = SHADOW_DEFAULT_BLUR_RADIUS ;
+
+    //水平位移
+    private float xOffset  = DimenUtil.INSTANCE.dp2px(10);
+
+
+    //竖直方向位移
+    private float yOffset = DimenUtil.INSTANCE.dp2px(10);
+
+    //背景色
+    private int bgColor = Color.WHITE;
 
     //是否有点击效果
     private boolean hasEffect =  false ;
@@ -109,12 +131,10 @@ public class ShadowLayout extends LinearLayout {
     //代理方式
     private Shadow shadow = new ShadowConfig(this);
 
-    private int mWidthMode;
-    private int mHeightMode;
+    private float mWidthMode;
+    private float mHeightMode;
     private Paint mPaint = new Paint();
-
-    private Path mPath;
-
+    private Paint locationPaint = new Paint();
 
     public ShadowLayout(Context context) {
         super(context,null);
@@ -155,6 +175,12 @@ public class ShadowLayout extends LinearLayout {
                 blurRadius = typedArray.getDimension(R.styleable.ShadowLayout_blurRadius, SHADOW_DEFAULT_BLUR_RADIUS);
             } else if (attr == R.styleable.ShadowLayout_hasEffect) {
                 hasEffect = typedArray.getBoolean(R.styleable.ShadowLayout_hasEffect, false);
+            }else if (attr ==  R.styleable.ShadowLayout_xOffset){
+                xOffset = typedArray.getDimension(R.styleable.ShadowLayout_xOffset,DimenUtil.INSTANCE.dp2px(10));
+            }else  if (attr == R.styleable.ShadowLayout_yOffset){
+                yOffset = typedArray.getDimension(R.styleable.ShadowLayout_yOffset,DimenUtil.INSTANCE.dp2px(10));
+            }else if (attr ==  R.styleable.ShadowLayout_bgColor){
+                bgColor = typedArray.getColor(R.styleable.ShadowLayout_bgColor,Color.WHITE);
             }
 
         }
@@ -212,33 +238,38 @@ public class ShadowLayout extends LinearLayout {
         this.setLayerType(LAYER_TYPE_SOFTWARE, null);//取消硬件加速
         mWidthMode = getMeasuredWidth();
         mHeightMode =  getMeasuredHeight();
-        canvas.drawColor(Color.parseColor("#00FFFFFF"));//绘制透明色
-        int size = 0;
-        mPaint = new Paint();
-        mPaint.setShadowLayer(shadowRadius,shadowRadius,shadowRadius,shadowColor);
-        mPath = new Path();
-        mPaint.setStyle(Paint.Style.FILL);
-        mPaint.setColor(Color.WHITE);
+        mPaint.setShadowLayer(blurRadius,0,0,shadowColor);
+        mPaint.setColor(shadowColor);//绘制透明色
         mPaint.setAntiAlias(true);
-        mPath.lineTo(mWidthMode, 0);
-//        RectF rectF1 = new RectF(mWidthMode - size, -size, mWidthMode + size, size);
-//        mPath.arcTo(rectF1, -180, -90);
-        mPath.lineTo(mWidthMode, mHeightMode);
-//        RectF rectF2 = new RectF(mWidthMode - size, mHeightMode - size, mWidthMode + size, mHeightMode + size);
-//        mPath.arcTo(rectF2, -90, -90);
+//        float startX = xOffset<=0?0:xOffset;
+//        float startY = yOffset<=0?0:yOffset;
+//        float endX = xOffset<=0?(mWidthMode-Math.abs(xOffset)):mWidthMode;
+//        float endY = yOffset<=0?(mWidthMode-Math.abs(yOffset)):mHeightMode;
+        RectF shadowRect = new  RectF(xOffset,yOffset,mWidthMode-Math.abs(xOffset),mWidthMode-Math.abs(yOffset));
+        if (shadowRadius==0){
+            //不是圆角
+            canvas.drawRect(shadowRect,mPaint);
+        }else {
+            //圆角，角度为shadowRadius
+            canvas.drawRoundRect(shadowRect,shadowRadius,shadowRadius,mPaint);
+        }
 
-        mPath.lineTo(size, mHeightMode);
-//        RectF rectF3 = new RectF(-size, mHeightMode - size, size, mHeightMode + size);
-//        mPath.arcTo(rectF3, 0, -90);
-        mPath.lineTo(0, size);
+        float locationStartX = xOffset>=0?0:xOffset;
+        float locationStartY = yOffset>=0?0:yOffset;
+        float locationEndX = xOffset>=0?(mWidthMode-Math.abs(xOffset)):mWidthMode;
+        float locationEndY = yOffset>=0?(mWidthMode-Math.abs(yOffset)):mHeightMode;
 
-//        RectF rectF4 = new RectF(-size, -size, size, size);
-//        mPath.arcTo(rectF4, -270, -90);
-//        mPath.lineTo(size, 0);
-        mPath.close();
-        canvas.drawPath(mPath, mPaint);
+        RectF locationRectF = new RectF(locationStartX,locationStartY,locationEndX,locationEndY);
+        locationPaint.setColor(bgColor);
+        locationPaint.setAntiAlias(true);
 
-
+        if (shadowRadius==0){
+            //不是圆角
+            canvas.drawRect(locationRectF,locationPaint);
+        }else {
+            //圆角，角度为shadowRadius
+            canvas.drawRoundRect(locationRectF,shadowRadius,shadowRadius,locationPaint);
+        }
     }
 
 
