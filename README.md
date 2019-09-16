@@ -11,20 +11,18 @@ Android 控件阴影使用，采用类似于css的Box Shadow 效果的阴影效�
 
 ```gradle
 repositories {
-			...
-			maven { url 'https://jitpack.io' }
+	//...
+	maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-	        implementation 'com.github.amikoj:ShadowView:1.0.0'
+	 implementation 'com.github.amikoj:ShadowView:1.0.0'
 }
 ```
 
 
 
-
-
-
+#### 使用
 
 ```xml
 
@@ -45,7 +43,7 @@ dependencies {
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-   ......
+   <!--嵌套需要添加阴影的布局 -->
 
     </cn.enjoytoday.shadow.ShadowLayout>
 ```
