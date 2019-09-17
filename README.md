@@ -3,8 +3,8 @@
 [![](https://jitpack.io/v/amikoj/ShadowView.svg)](https://jitpack.io/#amikoj/ShadowView)
 ### 使用说明
 Android 控件阴影使用，采用类似于css的Box Shadow 效果的阴影效果和设置方式,使用如下:
-<video src="./recorder.mp4" controls="controls" width="500" height="300">您的浏览器不支持播放该视频！</video>
 
+![操作视频](./recorder.gif)
 
 
 ##### 添加依赖
