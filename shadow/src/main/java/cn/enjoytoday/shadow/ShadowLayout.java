@@ -3,17 +3,13 @@ package cn.enjoytoday.shadow;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.View;
 import android.widget.LinearLayout;
 
 /**
@@ -119,12 +115,11 @@ public class ShadowLayout extends LinearLayout {
         if (Math.abs(yOffset) > SHADOW_MAX_OFFSET){
             yOffset = yOffset/Math.abs(yOffset) * SHADOW_MAX_OFFSET;
         }
-
+        setBackgroundColor(Color.parseColor("#00ffffff"));
         init();
     }
 
     private void init(){
-        setBackgroundColor(Color.parseColor("#00ffffff"));
         if (xOffset>0){
             //水平偏移量为正数，右侧有阴影，阴影长度为blurRadius+|xOffset|
             right = (int)(blurRadius + Math.abs(xOffset));
