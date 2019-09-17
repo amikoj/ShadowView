@@ -4,8 +4,7 @@
 ### 使用说明
 Android 控件阴影使用，采用类似于css的Box Shadow 效果的阴影效果和设置方式,使用如下:
 
-
-![操作视频](./recorder.gif)
+<img src="./recorder.gif." width = 30% height = 30% />
 
 
 ##### 添加依赖
