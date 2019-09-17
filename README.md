@@ -4,7 +4,7 @@
 ### 使用说明
 Android 控件阴影使用，采用类似于css的Box Shadow 效果的阴影效果和设置方式,使用如下:
 
-
+![操作视频](./recorder.mp4)
 
 
 ##### 添加依赖
@@ -16,7 +16,7 @@ repositories {
 }
 
 dependencies {
-	 implementation 'com.github.amikoj:ShadowView:1.0.0'
+    implementation 'com.github.amikoj:ShadowView:1.0.1'
 }
 ```
 
@@ -46,6 +46,22 @@ dependencies {
    <!--嵌套需要添加阴影的布局 -->
 
     </cn.enjoytoday.shadow.ShadowLayout>
+```
+
+
+
+
+####　代码设置
+
+```java
+shadowLayout.getShadowConfig()   //获取配置类
+            . setBlurRadius(blurRadius)  //设置模糊半径
+             .setXOffset(xoffset)   //设置水平位移，最大为20dp
+             .setYOffset(yoffset)   //设置竖直位移，最大为20dp
+             .setShadowRadius(shadowRadius) //设置圆角半径，为0时不是圆角
+             .setShadowColor(shadowColor)    //设置阴影颜色
+             .commit();             //生效修改
+
 ```
 
 

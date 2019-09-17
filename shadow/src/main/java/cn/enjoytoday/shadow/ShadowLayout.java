@@ -1,6 +1,7 @@
 package cn.enjoytoday.shadow;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,16 +9,11 @@ import android.graphics.BlurMaskFilter;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.PixelFormat;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 /**
@@ -96,10 +92,11 @@ public class ShadowLayout extends LinearLayout {
 
     public ShadowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        this.setLayerType(LAYER_TYPE_SOFTWARE, null);//取消硬件加速
         TypedArray typedArray =  context.obtainStyledAttributes(attrs,R.styleable.ShadowLayout);
         shadowColor = typedArray.getColor(R.styleable.ShadowLayout_shadowColor, Color.BLUE);
         blurRadius = typedArray.getDimension(R.styleable.ShadowLayout_blurRadius, SHADOW_DEFAULT_BLUR_RADIUS);
-        shadowRadius =  typedArray.getDimension(R.styleable.ShadowLayout_shadowRadius,SHADOW_DEFAULT_RADIUS);
+        shadowRadius =  typedArray.getDimension(R.styleable.ShadowLayout_shadowRadius,0);
         hasEffect = typedArray.getBoolean(R.styleable.ShadowLayout_hasEffect, false);
         xOffset = typedArray.getDimension(R.styleable.ShadowLayout_xOffset,DimenUtil.INSTANCE.dp2px(10));
         yOffset = typedArray.getDimension(R.styleable.ShadowLayout_yOffset,DimenUtil.INSTANCE.dp2px(10));
@@ -150,10 +147,11 @@ public class ShadowLayout extends LinearLayout {
             //竖直偏移量为负数，顶部有阴影，阴影长度为blurRadius+|yOffset|
             top = (int)(blurRadius + Math.abs(yOffset));
         }
-
         setPadding(left,top,right,bottom);
-
     }
+
+
+
 
 
     /**
@@ -163,7 +161,6 @@ public class ShadowLayout extends LinearLayout {
     public  Shadow getShadowConfig(){
         return shadow;
     }
-
 
 
     @Override
@@ -190,11 +187,13 @@ public class ShadowLayout extends LinearLayout {
     }
 
 
+
+
     //绘制背景色(在子view底部)
     private void drawBackground(Canvas canvas){
-        this.setLayerType(LAYER_TYPE_SOFTWARE, null);//取消硬件加速
+
         mWidthMode = getMeasuredWidth();
-        mHeightMode =  getHeight();
+        mHeightMode =  getMeasuredHeight();
         float startX = 0;
         float startY = 0;
         float endX = 0;
@@ -216,7 +215,9 @@ public class ShadowLayout extends LinearLayout {
             endY = mHeightMode-top-blurRadius;
         }
 //        mPaint.setShadowLayer(blurRadius,0,0,shadowColor);
-        mPaint.setMaskFilter(new BlurMaskFilter(blurRadius,BlurMaskFilter.Blur.NORMAL));
+        if (blurRadius>0){
+            mPaint.setMaskFilter(new BlurMaskFilter(blurRadius,BlurMaskFilter.Blur.NORMAL));
+        }
         mPaint.setColor(shadowColor);
         mPaint.setAntiAlias(true);
 
@@ -258,27 +259,104 @@ public class ShadowLayout extends LinearLayout {
         }
 
         @Override
-        public void setShadowRadius(float radius) {
-            shadow.shadowRadius =  radius;
+        public Shadow setShadowRadius(float radius) {
+            return  setShadowRadius(TypedValue.COMPLEX_UNIT_DIP,radius);
         }
 
         @Override
-        public void setShadowColor(int color) {
+        public Shadow setShadowRadius(int unit, float radius) {
+            Context c = getContext();
+            Resources r;
+
+            if (c == null) {
+                r = Resources.getSystem();
+            } else {
+                r = c.getResources();
+            }
+            shadow.shadowRadius =  Math.abs(TypedValue.applyDimension(unit,radius,r.getDisplayMetrics()));
+            return this;
+        }
+
+        @Override
+        public Shadow setShadowColor(int color) {
             shadow.shadowColor = color;
+            return this;
         }
 
         @Override
-        public void setShadowColorRes(int colorRes) {
+        public Shadow setShadowColorRes(int colorRes) {
             shadow.shadowColor = shadow.getResources().getColor(colorRes);
+            return this;
         }
 
         @Override
-        public void setBlurRadius(float radius) {
-            shadow.blurRadius = radius;
+        public Shadow setBlurRadius(float radius) {
+          return  setBlurRadius(TypedValue.COMPLEX_UNIT_DIP,radius);
+        }
+
+        @Override
+        public Shadow setBlurRadius(int unit, float radius) {
+            Context c = getContext();
+            Resources r;
+            if (c == null) {
+                r = Resources.getSystem();
+            } else {
+                r = c.getResources();
+            }
+            shadow.blurRadius = Math.min(SHADOW_MAX_BLUR,Math.abs(TypedValue.applyDimension(unit,radius,r.getDisplayMetrics())));
+            return this;
+        }
+
+        @Override
+        public Shadow setXOffset(float offset) {
+            return setXOffset(TypedValue.COMPLEX_UNIT_DIP,offset);
+        }
+
+        @Override
+        public Shadow setXOffset(int unit, float offset) {
+            Context c = getContext();
+            Resources r;
+            if (c == null) {
+                r = Resources.getSystem();
+            } else {
+                r = c.getResources();
+            }
+
+            float x = TypedValue.applyDimension(unit,offset,r.getDisplayMetrics());
+            if (Math.abs(x)> SHADOW_MAX_OFFSET){
+                x = x/Math.abs(x) * SHADOW_MAX_OFFSET;
+            }
+            shadow.xOffset = x;
+            return  this;
+        }
+
+        @Override
+        public Shadow setYOffset(float offset) {
+           return   setYOffset(TypedValue.COMPLEX_UNIT_DIP,offset);
+        }
+
+        @Override
+        public Shadow setYOffset(int unit, float offset) {
+            Context c = getContext();
+            Resources r;
+            if (c == null) {
+                r = Resources.getSystem();
+            } else {
+                r = c.getResources();
+            }
+
+            float y = TypedValue.applyDimension(unit,offset,r.getDisplayMetrics());
+            if (Math.abs(y)> SHADOW_MAX_OFFSET){
+                y = y/Math.abs(y) * SHADOW_MAX_OFFSET;
+            }
+            shadow.yOffset = y;
+            return this;
         }
 
         @Override
         public void commit() {
+            shadow.init();
+            shadow.requestLayout();
             shadow.postInvalidate();
         }
     }

@@ -15,10 +15,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
-        app:shadowRadius="10dp"
+        app:shadowRadius="0dp"
         app:shadowColor="#bebebe"
         app:bgColor="#fff"
-        app:xOffset="10dp"
+        app:xOffset="0dp"
         app:yOffset="0dp"
         app:blurRadius="5dp"
         android:layout_width="wrap_content"
@@ -34,9 +34,6 @@
 
     </cn.enjoytoday.shadow.ShadowLayout>
 
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/shadowLayout"
@@ -47,13 +44,192 @@
         android:layout_height="0dp">
 
         <TextView
+            android:id="@+id/horizontalLabel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="水平位移:"
+            android:text="水平位移："
             android:textSize="16sp"
             android:textColor="@color/colorBlack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:id="@+id/xOffsetTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintTop_toTopOf="@id/horizontalLabel"
+            app:layout_constraintBottom_toBottomOf="@id/horizontalLabel"
+            android:textSize="14sp"
+            android:text="0dp"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <SeekBar
+            android:id="@+id/xOffsetSeekBar"
+            app:layout_constraintStart_toEndOf="@id/horizontalLabel"
+            app:layout_constraintTop_toTopOf="@id/horizontalLabel"
+            app:layout_constraintBottom_toBottomOf="@id/horizontalLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:max="41"
+            android:progress="21"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:id="@+id/verticalLabel"
+            app:layout_constraintTop_toBottomOf="@id/horizontalLabel"
+            app:layout_constraintStart_toStartOf="@id/horizontalLabel"
+            android:layout_marginTop="20dp"
+            android:text="竖直位移："
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/yOffsetTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintTop_toTopOf="@id/verticalLabel"
+            app:layout_constraintBottom_toBottomOf="@id/verticalLabel"
+            android:textSize="14sp"
+            android:text="0dp"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+        <SeekBar
+            android:id="@+id/yOffsetSeekBar"
+            app:layout_constraintStart_toEndOf="@id/verticalLabel"
+            app:layout_constraintTop_toTopOf="@id/verticalLabel"
+            app:layout_constraintBottom_toBottomOf="@id/verticalLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:max="41"
+            android:progress="21"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:id="@+id/blurRadiusLabel"
+            app:layout_constraintTop_toBottomOf="@id/verticalLabel"
+            app:layout_constraintStart_toStartOf="@id/verticalLabel"
+            android:layout_marginTop="20dp"
+            android:text="模糊半径："
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:id="@+id/blurRadiusTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintTop_toTopOf="@id/blurRadiusLabel"
+            app:layout_constraintBottom_toBottomOf="@id/blurRadiusLabel"
+            android:textSize="14sp"
+            android:text="5dp"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <SeekBar
+            android:id="@+id/blurRadiusSeekBar"
+            app:layout_constraintStart_toEndOf="@id/blurRadiusLabel"
+            app:layout_constraintTop_toTopOf="@id/blurRadiusLabel"
+            app:layout_constraintBottom_toBottomOf="@id/blurRadiusLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:max="20"
+            android:progress="5"
+            android:layout_marginEnd="70dp"
+            android:layout_marginStart="10dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+
+
+        <!--颜色选择器 -->
+
+        <TextView
+            android:id="@+id/colorLabel"
+            app:layout_constraintTop_toBottomOf="@id/blurRadiusLabel"
+            app:layout_constraintStart_toStartOf="@id/blurRadiusLabel"
+            android:layout_marginTop="20dp"
+            android:text="颜色选择："
+            android:textSize="16sp"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:id="@+id/colorTv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="15dp"
+            app:layout_constraintTop_toTopOf="@id/colorLabel"
+            app:layout_constraintBottom_toBottomOf="@id/colorLabel"
+            android:textSize="14sp"
+            android:text="#bebebe"
+            android:textColor="@color/colorBlack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+        <cn.enjoytoday.shadowview.ColorPickerView
+            android:id="@+id/colorPicker"
+            app:layout_constraintStart_toEndOf="@id/colorLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="60dp"
+            app:indicatorEnable="true"
+            app:indicatorColor="#bebebe"
+            app:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="@id/colorLabel"
+            app:layout_constraintBottom_toBottomOf="@id/colorLabel"
+            android:layout_width="0dp"
+            android:layout_height="50dp"/>
+
+        <CheckBox
+            android:id="@+id/isRoundRect"
+            app:layout_constraintStart_toStartOf="@id/colorLabel"
+            app:layout_constraintTop_toBottomOf="@id/colorLabel"
+            android:layout_marginTop="60dp"
+            android:text="是否添加圆角"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/submit"
+            app:layout_constraintTop_toTopOf="@id/isRoundRect"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="20dp"
+            android:textSize="14sp"
+            android:textColor="#fff"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingTop="5dp"
+            android:onClick="onClick"
+            android:background="@drawable/btn_bg"
+            android:paddingBottom="5dp"
+            android:text="更新阴影"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+
 
 
 
