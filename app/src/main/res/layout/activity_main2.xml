@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#f2f2f2"
+    android:layout_height="match_parent"
+    tools:context=".Main2Activity">
+
+
+
+    <TextView
+        android:id="@+id/shadow1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="系统阴影"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/colorBlack"
+        android:layout_width="100dp"
+        android:elevation="3dp"
+        android:layout_height="80dp"/>
+
+
+
+    <TextView
+        android:id="@+id/shadow2"
+        app:layout_constraintStart_toEndOf="@id/shadow1"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:text="layer-list阴影"
+        android:gravity="center"
+        android:background="@drawable/shadow_layer"
+        android:textSize="14sp"
+        android:textColor="@color/colorBlack"
+        android:layout_width="100dp"
+        android:layout_height="80dp"/>
+
+
+
+
+    <cn.enjoytoday.shadow.ShadowLayout
+        android:id="@+id/shadow3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/shadow1"
+        android:layout_marginTop="20dp"
+        android:text=""
+        app:shadowRadius="0dp"
+        app:shadowColor="#333"
+        app:blurRadius="5dp"
+        app:xOffset="0dp"
+        app:yOffset="0dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center"
+        android:background="@drawable/shadow_layer"
+        android:textSize="14sp"
+        android:textColor="@color/colorBlack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:padding="5dp"
+            android:text="自定义应用布局"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textColor="@color/colorBlack"
+            android:layout_width="100dp"
+            android:layout_height="80dp"/>
+
+    </cn.enjoytoday.shadow.ShadowLayout>
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

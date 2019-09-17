@@ -230,6 +230,17 @@
 
 
 
+        <ImageView
+            android:id="@+id/goTo"
+            android:onClick="onClick"
+            android:padding="15dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_arrow_forward_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 
 
 

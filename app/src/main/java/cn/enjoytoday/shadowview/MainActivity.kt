@@ -1,5 +1,6 @@
 package cn.enjoytoday.shadowview
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -132,10 +133,12 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
                          .commit()
 
                 }
+            }
 
 
-
-
+            R.id.goTo -> {
+                //阴影设置方法
+                startActivity(Intent(this,Main2Activity::class.java))
 
             }
         }
