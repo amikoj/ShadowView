@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private var xoffset= 0f
 
     //竖直偏移
-    private var yoffset = 5f
+    private var yoffset = 0f
 
     //模糊半径
     private var blurRadius = 5f
@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private var shadowRadius = 0f
 
     //阴影色
-    private var shadowColor = Color.parseColor("#333333")
+    private var shadowColor = Color.parseColor("#bebebe")
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
