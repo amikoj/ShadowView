@@ -80,6 +80,7 @@ shadowLayout.getShadowConfig()   //获取配置类
 
 
 
-
+### 附
+大家有什么建议和需要的功能可以给我提issue.
 
 
